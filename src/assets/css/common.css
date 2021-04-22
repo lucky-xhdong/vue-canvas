@@ -1,0 +1,6 @@
+*{
+    margin: 0;
+    user-select: none;
+	tap-highlight-color: transparent;
+	-webkit-tap-highlight-color: transparent;
+}
