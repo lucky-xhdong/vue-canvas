@@ -1,5 +1,5 @@
 <template>
-  <div ref="loading" id="loading" class="loading">
+  <div ref="loading" id="loading" class="loading" v-show="showL">
     <img ref=img src="../assets/images/loading.png" style="width: 100%;">
     <div style="position: absolute; top:46.7%; left: 14.6%; width: 44%; height: 1.7%;">
         <img ref="progress" src="../assets/images/progress.png" style="width: 0%; height: 100%;display: block;" v-show="showP">
@@ -16,26 +16,26 @@
         el: null,
         img: null,
         progress: null,
-        showL: true,
-        showP: true,
+        showL: false,
+        showP: false,
         lib: null,
         loader: null,
         images: null
       }
     },
     mounted() {
-      // this.showLoading()
       this.el = this.$refs.loading
       this.img = this.$refs.img
       this.progress = this.$refs.progress
+      this.showLoading()
       this.lib = new Lib()
       this.loadImg()
     },
     methods: {
-      // showLoading(isShowProgress) {
-      //   this.showL = true
-      //   this.showP = isShowProgress === undefined ? true : isShowProgress
-      // },
+      showLoading(isShowProgress) {
+        this.showL = true
+        this.showP = isShowProgress === undefined ? true : isShowProgress
+      },
       hideLoading () {
         this.showL = false
       },
@@ -50,7 +50,7 @@
           this.loader.installPlugin(window.createjs.Sound)
           this.loader.addEventListener('complete', this.onComplete)
           this.loader.addEventListener('fileload', this.onFileload)
-          // this.loader.loadManifest(manifest)
+          this.loader.loadManifest(manifest)
         }
       },
       onComplete (event) {
