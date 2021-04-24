@@ -11,9 +11,7 @@
   require('./config')
   require('./main')
   export default {
-    name: "Demo1",
-    mounted() {
-    }
+    name: "Demo2"
   }
 </script>
 
