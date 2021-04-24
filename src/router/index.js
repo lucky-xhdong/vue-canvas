@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-const Canvas = (resolve) => require(['@/views/Canvas/Index'], resolve)
+const Canvas = (resolve) => require(['@/views/Canvas/Index.vue'], resolve)
 
 /* Router Modules */
 export const constantRoutes = [
