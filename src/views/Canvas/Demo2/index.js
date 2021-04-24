@@ -2466,7 +2466,7 @@ var lib, images;
 		setLoadProgress(parseInt(loader.progress * 100));
 	}
 	
-	function handleComplete(evt) {
+	function handleComplete() {
 		exportRoot = new lib[defaultConfig.lib_name]();
 		
 		stage = new cjs.Stage(canvas);
@@ -2622,7 +2622,7 @@ var lib, images;
 		_loading = Loading.getInstance();
 	}
 	
-	function showLoading(isShowText) {
+	function showLoading() {
 		var loading = Loading.getInstance();
 		loading.show();
 	}
@@ -2637,14 +2637,14 @@ var lib, images;
 		loading.setLoadProgress(percent);
 	}
 	
-	function setLoadingStyle(styleObj) {
-		var text = Loading.getInstance().text;
-		for (var prop in styleObj) {
-			if (styleObj.hasOwnProperty(prop)) {
-				text.style[prop] = styleObj[prop];
-			}
-		}
-	}
+	// function setLoadingStyle(styleObj) {
+	// 	var text = Loading.getInstance().text;
+	// 	for (var prop in styleObj) {
+	// 		if (styleObj.hasOwnProperty(prop)) {
+	// 			text.style[prop] = styleObj[prop];
+	// 		}
+	// 	}
+	// }
 	
 	
 	/*
@@ -2696,7 +2696,7 @@ var lib, images;
    */
 	var extend = function (source, target) {
 		for (var key in source) {
-			if (source.hasOwnProperty(key)) {
+			if (Object.prototype.hasOwnProperty.call(source, key)) {
 				target[key] = source[key];
 			}
 		}
@@ -2704,9 +2704,9 @@ var lib, images;
 		return target;
 	}
 	
-	var isString = function (obj) {
-		return typeof obj == 'string' && Object.prototype.toString.call(obj) == '[object String]';
-	}
+	// var isString = function (obj) {
+	// 	return typeof obj == 'string' && Object.prototype.toString.call(obj) == '[object String]';
+	// }
 	
 	var newElement = function (name) {
 		name = name.toString().toLocaleLowerCase();
@@ -2748,34 +2748,34 @@ var lib, images;
 		return (window.devicePixelRatio || 1) / backingStore;
 	};
 	
-	var parseAudioToDict = function (manifest, data) {
-		manifest = manifest || [];
-		manifest.forEach(function (item) {
-			if (item.src.indexOf('.mp3') > -1) {
-				data[item.id] = {
-					play: false,
-					instance: null,
-					time: 0,
-					sprite: null,
-					callback: null
-				};
-			}
-		});
-	}
+	// var parseAudioToDict = function (manifest, data) {
+	// 	manifest = manifest || [];
+	// 	manifest.forEach(function (item) {
+	// 		if (item.src.indexOf('.mp3') > -1) {
+	// 			data[item.id] = {
+	// 				play: false,
+	// 				instance: null,
+	// 				time: 0,
+	// 				sprite: null,
+	// 				callback: null
+	// 			};
+	// 		}
+	// 	});
+	// }
 	
-	function loadJS(url, callback) {
-		var _doc = document.getElementsByTagName("head")[0];
-		var script = document.createElement("script");
-		script.setAttribute("type", "text/javascript");
-		script.setAttribute("src", url);
-		_doc.appendChild(script);
-		script.onload = script.onreadystatechange = function () {
-			if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
-				callback();
-			}
-			script.onload = script.onreadystatechange = null
-		}
-	}
+	// function loadJS(url, callback) {
+	// 	var _doc = document.getElementsByTagName("head")[0];
+	// 	var script = document.createElement("script");
+	// 	script.setAttribute("type", "text/javascript");
+	// 	script.setAttribute("src", url);
+	// 	_doc.appendChild(script);
+	// 	script.onload = script.onreadystatechange = function () {
+	// 		if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete") {
+	// 			callback();
+	// 		}
+	// 		script.onload = script.onreadystatechange = null
+	// 	}
+	// }
 	
 	//output
 	cjs.utils = {
