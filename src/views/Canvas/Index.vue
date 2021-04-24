@@ -8,7 +8,7 @@
   // import "./index.js";
   // import "./config.js";
   // require('./lib/createjs-utils')
-  require('./lib/audioplayer')
+  require('./lib/audioPlayer')
   require('./lib/VideoPlayer')
   require('./index')
   require('./config')

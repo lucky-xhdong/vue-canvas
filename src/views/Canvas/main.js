@@ -1,4 +1,7 @@
 import { config, audioGroup, ansGroup } from "./config";
+import bgMp3 from '@/views/Canvas/sounds/bg.mp3'
+import rightMp3 from '@/views/Canvas/sounds/wego_right.mp3'
+import errorMp3 from '@/views/Canvas/sounds/wego_error.mp3'
 
 (function(global) {
     var cjs = global.createjs || {};
@@ -6,8 +9,8 @@ import { config, audioGroup, ansGroup } from "./config";
     var exportRoot;
     var stage;
     var cover;
-    var canClick = false;
     var btnStart;
+    var canClick = false;
     var MAX_PAGE_NUM = 10;
     var MAX_REC_NUM = 8;
     var MAX_DRAG_NUM = 10;
@@ -27,6 +30,7 @@ import { config, audioGroup, ansGroup } from "./config";
     function init(){
         cover = exportRoot.cover;
         btnStart = cover.btnStart;
+        console.log(btnStart)
         for(var i = 0; i < MAX_PAGE_NUM; i++){
             var moveMc = exportRoot["moveMc" + (i + 1)];
             if(moveMc)moveMcGroup.push(moveMc);
@@ -94,11 +98,11 @@ import { config, audioGroup, ansGroup } from "./config";
             if(Math.abs(drag.x - rec.x)< width/2 && Math.abs(drag.y - rec.y)< height/2){
                 isContained = true;
                 console.log(isContained)
-                if(drag.idx == audioGroup[currentFrame][count] && checkIsRight(rec.idx)){
+                if(drag.idx === audioGroup[currentFrame][count] && checkIsRight(rec.idx)){
                     drag.visible = false;
                     canClick = false;
                     
-                    window.audioPlayer.playAudioCallback("sounds/wego_right.mp3", function(){
+                    window.audioPlayer.playAudioCallback(rightMp3, function(){
                         if(checkIsOver() && currentFrame < ansGroup.length - 1){
                             exportRoot.gotoAndStop(currentFrame + 1);
                             reset();
@@ -109,7 +113,7 @@ import { config, audioGroup, ansGroup } from "./config";
                         
                     },this);
                 }else{
-                    window.audioPlayer.playAudio("sounds/wego_error.mp3");
+                    window.audioPlayer.playAudio(errorMp3);
                 }
             }
         }
@@ -152,6 +156,7 @@ import { config, audioGroup, ansGroup } from "./config";
     }
     
     function playNextAudio(){
+        canClick = true;
         var currentFrame = exportRoot.currentFrame || 0;
         var count = getCount();
         var lastFrameCount = 0;
@@ -162,15 +167,15 @@ import { config, audioGroup, ansGroup } from "./config";
         }
         var num = lastFrameCount + count + 1;
         num = num < 10 ? '0' + num : num;
-        window.audioPlayer.playAudioCallback("sounds/" + num +  ".mp3", function(){
-            canClick = true;
+        window.audioPlayer.playAudioCallback(require(`./sounds/${num}.mp3`), function(){
+            playNextAudio()
         },this);
     }
     
     function handleControl() {
         utils.on(cover.btnStart, 'click', function(){
             cover.visible = false;
-            window.audioPlayer.playAudioCallback('sounds/bg.mp3',function(){
+            window.audioPlayer.playAudioCallback(bgMp3,function(){
                 playNextAudio();
             },this);
         });
