@@ -66,10 +66,10 @@
         this.hideLoading()
       },
       onFileload (event) {
-        console.log('event: ', event);
         const item = event.item
         if(item.type === 'image') {
           this.images[item.id] = event.result
+          this.lib.setImg(event.result)
         }
         this.setProgress(parseInt(this.loader.progress * 100))
       },
