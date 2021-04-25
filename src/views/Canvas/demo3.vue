@@ -1,12 +1,12 @@
 <template>
   <div ref="gameContainer" id="gameContainer" class="gameContainer">
     <canvas ref="canvas" id="canvas" width="800" height="600"></canvas>
-    <loading></loading>
+    <loading :rs="resource.demo3"></loading>
   </div>
 </template>
 
 <script>
-  import { defaultConfig } from '../../utils/config'
+  import { defaultConfig, resource } from '../../utils/config'
   import { getResizeValue, getPixelRatio } from '../../utils/util'
   import Loading from '../../components/Loading'
   export default {
@@ -18,6 +18,7 @@
         canvas: null,
         context: null,
         stage: null,
+        resource
       }
     },
     components: {

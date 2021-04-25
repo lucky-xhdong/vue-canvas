@@ -11,6 +11,14 @@
   import { Lib } from '../utils/lib.js'
   export default {
     name: "Loading",
+    props: {
+      rs: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
     data () {
       return {
         el: null,
@@ -28,7 +36,7 @@
       this.img = this.$refs.img
       this.progress = this.$refs.progress
       this.showLoading()
-      this.lib = new Lib()
+      this.lib = new Lib(this.rs || {})
       this.loadImg()
     },
     methods: {
