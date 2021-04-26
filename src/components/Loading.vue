@@ -8,11 +8,17 @@
 </template>
 
 <script>
-  import { Lib } from '../utils/lib.js'
+  import { Lib } from '@/utils/lib.js'
   export default {
     name: "Loading",
     props: {
       rs: {
+        type: Object,
+        default() {
+          return {}
+        }
+      },
+      stage: {
         type: Object,
         default() {
           return {}
@@ -63,14 +69,20 @@
       },
       onComplete (event) {
         console.log('event: ', event);
+        // this.lib.setChangeImg({mode: 'synched', startPosition: 0}, this.stage)
+        this.lib.setUnit36(this.stage)
         this.hideLoading()
       },
       onFileload (event) {
         const item = event.item
+        console.log('item.type: ', item.id, item.type, event.result)
         if(item.type === 'image') {
           this.images[item.id] = event.result
-          this.lib.setImg(event.result)
+          this.lib.setImg(event.result, item.id)
         }
+
+        // 此处存在require的图片变成text格式，切返回值变为乱码的问题
+
         this.setProgress(parseInt(this.loader.progress * 100))
       },
       setProgress (progress) {

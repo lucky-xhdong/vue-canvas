@@ -1,14 +1,14 @@
 <template>
   <div ref="gameContainer" id="gameContainer" class="gameContainer">
     <canvas ref="canvas" id="canvas" width="800" height="600"></canvas>
-    <loading :rs="resource.demo3"></loading>
+    <loading :rs="resource.demo3" :stage="stage"></loading>
   </div>
 </template>
 
 <script>
-  import { defaultConfig, resource } from '../../utils/config'
-  import { getResizeValue, getPixelRatio } from '../../utils/util'
-  import Loading from '../../components/Loading'
+  import { defaultConfig, resource } from '@/utils/config'
+  import { getResizeValue, getPixelRatio } from '@/utils/util'
+  import Loading from '@/components/Loading'
   export default {
     name: "Demo3",
     data () {
@@ -31,8 +31,8 @@
       this.onResize()
       window.addEventListener('resize', this.onResize)
 
-      // var stage = new window.createjs.Stage(this.canvas);
-      // window.createjs.Ticker.addEventListener("tick", stage);
+      this.stage = new window.createjs.Stage(this.canvas);
+      window.createjs.Ticker.addEventListener("tick", this.stage);
 
       // var mc = new window.createjs.MovieClip({loop:-1, labels:{myLabel:20}});
       // mc.nominalBounds = new window.createjs.Rectangle(0,0,1356.3,58)
