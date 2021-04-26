@@ -1,12 +1,12 @@
 <template>
   <div ref="gameContainer" id="gameContainer" class="gameContainer">
     <canvas ref="canvas" id="canvas" width="800" height="600"></canvas>
-    <loading></loading>
+    <loading :rs="resource.demo3"></loading>
   </div>
 </template>
 
 <script>
-  import { defaultConfig } from '../../utils/config'
+  import { defaultConfig, resource } from '../../utils/config'
   import { getResizeValue, getPixelRatio } from '../../utils/util'
   import Loading from '../../components/Loading'
   export default {
@@ -18,6 +18,7 @@
         canvas: null,
         context: null,
         stage: null,
+        resource
       }
     },
     components: {
@@ -29,6 +30,20 @@
       this.context = this.canvas.getContext('2d')
       this.onResize()
       window.addEventListener('resize', this.onResize)
+
+      // var stage = new window.createjs.Stage(this.canvas);
+      // window.createjs.Ticker.addEventListener("tick", stage);
+
+      // var mc = new window.createjs.MovieClip({loop:-1, labels:{myLabel:20}});
+      // mc.nominalBounds = new window.createjs.Rectangle(0,0,1356.3,58)
+      // stage.addChild(mc);
+      
+      // this.shape = new window.createjs.Shape();
+      // this.shape.graphics.f("#EBECDC").s().p("EhoYAEhQhkAAAAhkIAAl5QAAhkBkAAMDQxAAAQBkAAAABkIAAF5QAABkhkAAg");
+      // this.shape.setTransform(678.2,29);
+
+      // mc.timeline.addTween(window.createjs.Tween.get(this.shape).wait(45));
+      // mc.gotoAndPlay("start");
     },
     methods: {
       onResize() {
