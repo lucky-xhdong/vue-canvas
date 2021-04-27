@@ -8,7 +8,7 @@
   import LoadingMixin from '@/mixins/common/loading'
   import ResizeMixin from '@/mixins/common/resize'
   export default {
-    name: "Demo1",
+    name: 'Demo1',
     data () {
       return {
       }

@@ -3,6 +3,6 @@ export const options = {
   canvas: 'canvas',
   width: 1920,
   height: 1080,
-  imgLoading: require("@/assets/images/loading.png"),
+  imgLoading: require("@/assets/demo1/images/loading.png"),
   autoRefresh: true
 }
