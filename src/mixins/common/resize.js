@@ -9,10 +9,11 @@ const ResizeMixin = {
   methods: {
     onResize() {
       const { margin, width, height } = getResizeValue()
-      const ratio = getPixelRatio(this.context)
   
       //设置canvas属性
       const canvas = document.getElementById(options.canvas)
+      const context = canvas.getContext('2d')
+      const ratio = getPixelRatio(context)
       const cjs = window.createjs
       //创建舞台
       const stage = new cjs.Stage(canvas)
@@ -20,9 +21,9 @@ const ResizeMixin = {
       const gameContainer = new cjs.Container()
       stage.addChild(gameContainer)
       
-      gameContainer.style.width = `${width}px`
-      gameContainer.style.height = `${height}px`
-      gameContainer.style.margin = margin
+      gameContainer.width = `${width}px`
+      gameContainer.height = `${height}px`
+      gameContainer.margin = margin
       canvas.width = width * ratio
       canvas.height = height * ratio
 
