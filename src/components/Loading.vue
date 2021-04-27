@@ -9,6 +9,7 @@
 
 <script>
   import { Lib } from '@/utils/lib.js'
+  import { defaultConfig, resource } from '@/utils/config'
   export default {
     name: "Loading",
     props: {
@@ -23,6 +24,12 @@
         default() {
           return {}
         }
+      },
+      onResize: {
+        type: Function,
+        default() {
+          return () => {}
+        }
       }
     },
     data () {
@@ -34,7 +41,10 @@
         showP: false,
         lib: null,
         loader: null,
-        images: null
+        images: null,
+        btnGroup: [],
+        update: false,
+        cancelBtn: false
       }
     },
     mounted() {
@@ -68,14 +78,68 @@
         }
       },
       onComplete (event) {
-        console.log('event: ', event);
-        // this.lib.setChangeImg({mode: 'synched', startPosition: 0}, this.stage)
-        this.lib.setUnit36(this.stage)
+        this.lib.setUnit({mode: 'synched', startPosition: 0})
+        this.lib.setText({mode: 'synched', startPosition: 0})
+        this.lib.setChangeImg({mode: 'synched', startPosition: 0})
+        this.lib.setUnit36()
+        this.lib.setBtnStart()
+        this.lib.setLeft({mode: 'synched', startPosition: 0})
+        this.lib.setRight({mode: 'synched', startPosition: 0})
+        this.lib.setImageUnit({mode: 'synched', startPosition: 0})
+        this.lib.setCover()
+        this.lib.setSmall({mode: 'synched', startPosition: 0})
+        this.lib.setIndex({mode: 'synched', startPosition: 0, loop: false})
+        this.stage.addChild(this.lib.index)
+        this.stage.update()
+
+        window.createjs.Touch.enable(this.stage);
+		    this.stage.enableMouseOver(20);
+		    window.createjs.Ticker.setFPS(this.lib.property.fps);
+		    window.createjs.Ticker.addEventListener('tick', this.tick);
+
+		    this.onResize()
+
+        this.init()
+
         this.hideLoading()
+      },
+      init () {
+        this.lib.small.gotoAndStop(0);
+        const max = resource.demo3.MAX_NUM
+        for(let i = 0; i < max; i++) {
+          const btn = this.lib[`unit${i+1}`]
+          if(btn && i < max) {
+            this.btnGroup.push(btn)
+          }
+          if (btn) {
+            if(i == 0) {
+              btn.gotoAndStop(1)
+            } else {
+              btn.gotoAndStop(0)
+            }
+            btn.gou.visible = false;
+          }
+        }
+        this.lib.index.gotoAndStop(0);
+        this.handleControl();
+      },
+      handleControl() {
+        if(resource.demo3.MAX_NUM < 7) {
+          this.lib.btnNext.visible = false;
+          this.lib.btnPrev.visible = false;
+        }
+        this.lib.btnStart.on('click', () => {
+          this.lib.cover.visible = false
+        })
+      },
+      resetBtn(){
+        this.canClick = true
+        this.btnGroup.forEach(btn => {
+          btn.gotoAndStop(0)
+        })
       },
       onFileload (event) {
         const item = event.item
-        console.log('item.type: ', item.id, item.type, event.result)
         if(item.type === 'image') {
           this.images[item.id] = event.result
           this.lib.setImg(event.result, item.id)
@@ -87,6 +151,16 @@
       },
       setProgress (progress) {
         this.progress.style.width = `${progress}%`
+      },
+      tick(event) {
+        if(defaultConfig.autoRefresh) {
+          this.stage.update(event);
+        } else {
+          if (this.update) {
+            this.update = false;
+            this.stage.update(event);
+          }
+        }
       }
     }
   }

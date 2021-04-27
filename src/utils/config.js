@@ -47,7 +47,12 @@ export const resource = {
 			{src:require("@/assets/images/_33.png"), id:"_33"},
 			{src:require("@/assets/images/_34.png"), id:"_34"},
 			{src:require("@/assets/images/_35.png"), id:"_35"},
-			{src:require("@/assets/images/right.png"), id:"right"}
-		]
+			{src:require("@/assets/images/right.png"), id:"right", type: 'image'}
+		],
+		commonCode: 'A0FTRQhoAAhJhJQhJhJAAhoIAA+tQAAhoBJhJQBJhJBoAAMAoLAAAQBoAABJBJQBJBJAABoIAAetQAABohJBJQhJBJhoAAg',
+		specialCode: 'A0pT0QhrAAhLhMQhLhLAAhqIAA/lQAAhqBLhMQBLhLBrAAMApTAAAQBqAABLBLQBMBMAABqIAAflQAABqhMBLQhLBMhqAAg',
+		matrix: { x: 154.3, y: 124, scaleX: 1.028, scaleY: 1.028 },
+		special: [1, 4, 26],
+		MAX_NUM: 35
 	}
 }
