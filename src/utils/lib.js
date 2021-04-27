@@ -102,11 +102,15 @@ export class Lib {
         // stage.addChild(this.changeImg)
         let tween = window.createjs.Tween.get({})
         Object.keys(this.images).forEach((item, index) => {
-            this.images[item].setTransform(0,0,0.798,0.798)
+            if(item === 'right') {
+                return
+            }
+            const image = Object.create(this.images[item])
+            image.setTransform(0,0,0.798,0.798)
             tween = index ? tween.to({
-                state: [{ t:  this.images[item].setTransform(200,200,0.798,0.798) }]
+                state: [{ t:  image.setTransform(200,200,0.798,0.798) }]
             }, 1) : tween.to({
-                state: [{ t:  this.images[item].setTransform(0,0,0.798,0.798) }]
+                state: [{ t:  image.setTransform(0,0,0.798,0.798) }]
             })
         })
         
@@ -235,19 +239,20 @@ export class Lib {
 
             this[unit].gou = Object.create(this.unit36)
             this[unit].gou.setTransform(275.4,26.5)
-	        this[unit].timeline.addTween(window.createjs.Tween.get(this[unit].gou).wait(2))
+            this[unit].timeline.addTween(window.createjs.Tween.get(this[unit].gou).wait(2))
 
             const isSpecial = special.includes(i)
             const code = isSpecial ? specialCode : commonCode
-            const shape = new window.createjs.Shape();
-	        shape.graphics.f("rgba(255,255,255,0.447)").s().p(code)
+            const shape = new window.createjs.Shape()
+            shape.graphics.f("rgba(255,255,255,0.447)").s().p(code)
             const { x, y, scaleX, scaleY } = matrix
-	        isSpecial ? shape.setTransform(x, y) : shape.setTransform(x, y, scaleX, scaleY)
-
-	        this[unit].timeline.addTween(window.createjs.Tween.get(shape).to({_off:true},1).wait(1));
-            this.images[`_${flag}`].setTransform(0,0,0.461,0.461)
-            i === 26 ? this[unit].timeline.addTween(window.createjs.Tween.get(this.images[`_${flag}`]).to({_off:true},1).wait(1)) : this[unit].timeline.addTween(window.createjs.Tween.get(this.images[`_${flag}`]).wait(2))
-        	
+            isSpecial ? shape.setTransform(x, y) : shape.setTransform(x, y, scaleX, scaleY)
+            this[unit].timeline.addTween(window.createjs.Tween.get(shape).to({_off:true},1).wait(1));
+            
+            const image = Object.create(this.images[`_${flag}`])
+            image.setTransform(0,0,0.461,0.461)
+            i === 26 ? this[unit].timeline.addTween(window.createjs.Tween.get(image).to({_off:true},1).wait(1)) : this[unit].timeline.addTween(window.createjs.Tween.get(image).wait(2))
+            
             const shape_1 = new window.createjs.Shape();
             shape_1.graphics.f().s("#85D2C0").ss(6,1,1).p("A1Q0hMAqhAAAQBtAABNBNQBNBNAABtMAAAAg1QAABthNBNQhNBNhtAAMgqhAAAQhtAAhNhNQhNhNAAhtMAAAgg1QAAhtBNhNQBNhNBtAAg");
             shape_1.setTransform(154,124.3);

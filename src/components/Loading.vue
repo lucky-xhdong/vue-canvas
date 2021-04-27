@@ -77,7 +77,7 @@
           this.loader.loadManifest(manifest)
         }
       },
-      onComplete (event) {
+      onComplete () {
         this.lib.setUnit({mode: 'synched', startPosition: 0})
         this.lib.setText({mode: 'synched', startPosition: 0})
         this.lib.setChangeImg({mode: 'synched', startPosition: 0})
@@ -92,15 +92,12 @@
         this.stage.addChild(this.lib.index)
         this.stage.update()
 
-        window.createjs.Touch.enable(this.stage);
-		    this.stage.enableMouseOver(20);
-		    window.createjs.Ticker.setFPS(this.lib.property.fps);
-		    window.createjs.Ticker.addEventListener('tick', this.tick);
-
-		    this.onResize()
-
+        window.createjs.Touch.enable(this.stage)
+        this.stage.enableMouseOver(20)
+        window.createjs.Ticker.setFPS(this.lib.property.fps)
+        window.createjs.Ticker.addEventListener('tick', this.tick)
+        this.onResize()
         this.init()
-
         this.hideLoading()
       },
       init () {
