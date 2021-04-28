@@ -3,7 +3,7 @@ import App from './App.vue'
 import './assets/css/common.css'
 // 引入router
 import router from './router'
-import 'script-loader!createjs/builds/1.0.0/createjs.min.js'
+import 'script-loader!createjs/builds/1.0.0/createjs.js'
 
 Vue.config.productionTip = false
 

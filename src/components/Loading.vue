@@ -44,7 +44,8 @@
         images: null,
         btnGroup: [],
         update: false,
-        cancelBtn: false
+        cancelBtn: false,
+        currentNum: 0
       }
     },
     mounted() {
@@ -101,10 +102,10 @@
         this.hideLoading()
       },
       init () {
-        this.lib.small.gotoAndStop(0);
+        this.lib.index.small.gotoAndStop(0);
         const max = resource.demo3.MAX_NUM
         for(let i = 0; i < max; i++) {
-          const btn = this.lib[`unit${i+1}`]
+          const btn = this.lib.index.small[`btn${i+1}`]
           if(btn && i < max) {
             this.btnGroup.push(btn)
           }
@@ -122,15 +123,29 @@
       },
       handleControl() {
         if(resource.demo3.MAX_NUM < 7) {
-          this.lib.btnNext.visible = false;
-          this.lib.btnPrev.visible = false;
+          this.lib.index.btnNext.visible = false;
+          this.lib.index.btnPrev.visible = false;
         }
-        this.lib.btnStart.on('click', () => {
+        
+        console.log('this.lib.index.cover.btnStart: ', this.lib.index.cover, this.lib.index.cover.btnStart);
+        
+        this.lib.index.cover.btnStart.on('click', () => {
           this.lib.cover.visible = false
         })
+
+        this.btnGroup.forEach((btn, i) => {
+          btn.on('click', () => {
+            if(!this.cancelBtn) return;
+            this.currentNum = i;
+            this.resetBtn();
+            btn.gotoAndStop(1);
+            this.lib.index.gotoAndStop(i);
+            btn.gou.visible = true;
+          });
+        });
       },
       resetBtn(){
-        this.canClick = true
+        this.cancelBtn = true
         this.btnGroup.forEach(btn => {
           btn.gotoAndStop(0)
         })

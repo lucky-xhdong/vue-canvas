@@ -14,36 +14,29 @@ export class Lib {
         }
     }
     setImg(item, id) {
+        const vector = id === 'right' ? { x: 0, y: 0, x1: 67, y1: 53 } : { x: 0, y: 0, x1: 670, y1: 539 }
+        const { x, y, x1, y1 } = vector
         this.images[id] = new window.createjs.Bitmap(item)
-        this.images[id].nominalBounds = new window.createjs.Rectangle(0,0,670,539)
+        this.images[id].nominalBounds = new window.createjs.Rectangle(x, y, x1, y1)
     }
     setUnit(config) {
         if(Object.prototype.toString.call(config) !== '[object Object]') {
             return
         }
-        // if(stage.__proto__ !== window.createjs.Stage.prototype) {
-        //     return
-        // }
         this.mc = new window.createjs.MovieClip(config)
         this.mc.nominalBounds = new window.createjs.Rectangle(0,0,1356.3,58)
-        // stage.addChild(this.mc)
         const shape = new window.createjs.Shape()
         shape.graphics.f("#EBECDC").s().p("EhoYAEhQhkAAAAhkIAAl5QAAhkBkAAMDQxAAAQBkAAAABkIAAF5QAABkhkAAg")
         shape.setTransform(678.2,29)
         this.mc.timeline.addTween(window.createjs.Tween.get(shape).wait(45))
-        // this.mc.gotoAndPlay("start")
     }
     setText(config) {
         if(Object.prototype.toString.call(config) !== '[object Object]') {
             return
         }
 
-        // if(stage.__proto__ !== window.createjs.Stage.prototype) {
-        //     return
-        // }
         this.text = new window.createjs.MovieClip(config)
         this.text.nominalBounds = new window.createjs.Rectangle(0,0,443.2,48.7)
-        // stage.addChild(this.text)
 
         // 文字打散
         const shape_0 = new window.createjs.Shape()
@@ -87,40 +80,34 @@ export class Lib {
         shape_9.setTransform(221.7,24.1)
     
         this.text.timeline.addTween(window.createjs.Tween.get({}).to({state:[{t:shape_0}]}).to({state:[{t:shape_1}]},1).to({state:[{t:shape_2}]},1).to({state:[{t:shape_3}]},1).to({state:[{t:shape_4}]},1).to({state:[{t:shape_5}]},1).to({state:[{t:shape_6}]},1).to({state:[{t:shape_7}]},1).to({state:[{t:shape_8}]},1).to({state:[{t:shape_9}]},1).to({state:[{t:shape_0}]},1).to({state:[{t:shape_1}]},1).to({state:[{t:shape_2}]},1).to({state:[{t:shape_3}]},1).to({state:[{t:shape_4}]},1).to({state:[{t:shape_5}]},1).to({state:[{t:shape_6}]},1).to({state:[{t:shape_7}]},1).to({state:[{t:shape_8}]},1).to({state:[{t:shape_9}]},1).to({state:[{t:shape_0}]},1).to({state:[{t:shape_1}]},1).to({state:[{t:shape_2}]},1).to({state:[{t:shape_3}]},1).to({state:[{t:shape_4}]},1).to({state:[{t:shape_5}]},1).to({state:[{t:shape_6}]},1).to({state:[{t:shape_7}]},1).to({state:[{t:shape_8}]},1).to({state:[{t:shape_9}]},1).to({state:[{t:shape_0}]},1).to({state:[{t:shape_1}]},1).to({state:[{t:shape_2}]},1).to({state:[{t:shape_3}]},1).to({state:[{t:shape_4}]},1).wait(1))
-        // this.text.gotoAndPlay("start")
     }
     setChangeImg(config) {
         if(Object.prototype.toString.call(config) !== '[object Object]') {
             return
         }
-
-        // if(stage.__proto__ !== window.createjs.Stage.prototype) {
-        //     return
-        // }
         this.changeImg = new window.createjs.MovieClip(config)
         this.changeImg.nominalBounds = new window.createjs.Rectangle(0,0,534.9,430.3)
-        // stage.addChild(this.changeImg)
         let tween = window.createjs.Tween.get({})
-        Object.keys(this.images).forEach((item, index) => {
+        Object.keys(this.images).forEach(item => {
             if(item === 'right') {
                 return
             }
             const image = Object.create(this.images[item])
             image.setTransform(0,0,0.798,0.798)
-            tween = index ? tween.to({
-                state: [{ t:  image.setTransform(200,200,0.798,0.798) }]
+            tween = item !== '_01' ? tween.to({
+                state: [{ t:  image.setTransform(0,0,0.798,0.798) }]
             }, 1) : tween.to({
                 state: [{ t:  image.setTransform(0,0,0.798,0.798) }]
             })
         })
         
         this.changeImg.timeline.addTween(tween.wait(1))
-        // this.changeImg.gotoAndPlay("start")
     }
     setUnit36() {
         this.unit36 = new window.createjs.Container()
         this.unit36.nominalBounds = new window.createjs.Rectangle(-33.5,-26.5,67,53)
-        this.unit36.addChild(this.images['right'].setTransform(-33.5,-26.5))
+        const instance = Object.assign(this.images['right'])
+        this.unit36.addChild(instance.setTransform(-33.5,-26.5))
     }
     setBtnStart() {
         this.btnStart = new window.createjs.Container()
@@ -280,7 +267,8 @@ export class Lib {
         shape.graphics.f("#FFFFFF").s().p("AvkDSQBRhZACiuIABg8IhEAAIAAglIBEAAIAAhYIAnAAIgBBYIByAAQgCC6gEBrQgCBXhAgDIg4gCIgIgqQAhAEAWABQAhABADgwQAFhzABiLIhLAAIgCA/QgBC9haBnIgdgggAH4DQQA3hJAAicIAAiEIDdAAIgDhUIApAAQAAAjABAxICoAAIAAAkIimAAQAECBATBBQAwhAAehQIAnAQQgqBig7BJQAkBKAiAAQAMgBAHgWQAHgkAEglIAlANQgIA0gIAiQgKAkgfACQgeACgbgWQgdgXgWgnQgoAsgyAiQgMgPgPgPQA4glAsgyQgchJgFieIi5AAIAABKICOAAQgEBbgEBAQgHBDg7AAQgUAAghgCIgIgpQAiAGAXAAQAdgBADgnQAEgtABhAIhlAAQgDCohBBRIgZgigAAKDMQCRgkABhwIiHAAIAAgjIHLAAIAAAjIidAAIAABoQAAAgAgAAIA0AAQAhAAAEgWQADgXABgpIArAOQgDAogFAaQgHApg0AAIhQAAQg9ABAAg/IAAhtIhYAAQAACKihAuQgKgRgOgTgAlhDuIAAhEQg5AFg/AGIgIgjQA5gDBHgFIAAgwIhrAAIAAgfQAUgaATggIg4AAIAAgcIBKAAQALgWAMgYIAkALIgTAjICOAAIAAAcIihAAQgUAigRAZIBCAAIAAgtIAjAAIAAAtIBcAAIAAAeIhcAAIAAAtIBfgHQgCAQAAAQIhdAHIAABHgAiCC/QgNgSgLgXQgqAvgwAkQgOgRgPgJQA6gnAug5QgZhLgHhwIkfAAIAAghIB6AAIAAgtIhmAAIAAgfIBmAAIAAgyIAkAAIAAAyIBfAAIAAAfIhfAAIAAAtICAAAIgGiBIAlAAQABBGAEA7ICiAAIAAAhIihAAQAFBYATA/QAkg0Adg/IAhAQQglBPgwA+QAQAkAUAYQANAPALAAQANAAAFgUQAFgaAFgoQAUAIAQAFQgHAqgIAgQgMArgfAAQgkAAgggtgAo1DiIAAgxIhsAAIAAAxIgnAAIAAmQIC6AAIAAGQgAqhCOIBsAAIAAkXIhsAAgABSgsIAAgiIFYAAIAAAigAGzhYIAAg3IlxAAIAAA3IgpAAIAAhaIDSAAQgKgTgPgbIAmgSQATAmANAaIDCAAIAABagAiKjKIAZgXQAwAlAgAcIgcAcQgigjgrgjgANXjVIAVgaQAoAYAkAaIgXAdQgkgcgmgZg");
         shape.setTransform(5,-108);
     
-        this.btnStart.setTransform(6.6,88.9);
+        this.cover.btnStart = Object.create(this.btnStart)
+        this.cover.btnStart.setTransform(6.6,88.9);
     
         const shape_1 = new window.createjs.Shape();
         shape_1.graphics.f("#FF9966").s().p("EhoYAEhQhkAAAAhkIAAl5QAAhkBkAAMDQxAAAQBkAAAABkIAAF5QAABkhkAAg");
@@ -290,7 +278,8 @@ export class Lib {
         shape_2.graphics.f("#85D2C0").s().p("Egb/BaxMAAAi1hMA3/AAAMAAAC1hg");
         shape_2.setTransform(933.5,0,0.401,0.93);
     
-        this.mc.setTransform(6.7,-26.2,1,0.31,0,0,0,678.1,29);
+        this.cover.mc = Object.create(this.mc)
+        this.cover.mc.setTransform(6.7,-26.2,1,0.31,0,0,0,678.1,29);
     
         const shape_3 = new window.createjs.Shape();
         shape_3.graphics.f("rgba(83,175,153,0.447)").s().p("Egb/BaxMAAAi1hMA3/AAAMAAAC1hg");
@@ -348,7 +337,7 @@ export class Lib {
         shape_16.graphics.f("#FFFFFF").s().p("EiV/BUYMAAAiovMEr+AAAMAAACovg");
         shape_16.setTransform(-45.3,0);
     
-        this.cover.addChild(shape_16,shape_15,shape_14,shape_13,shape_12,shape_11,shape_10,shape_9,shape_8,shape_7,shape_6,shape_5,shape_4,shape_3,this.mc,shape_2,shape_1,this.btnStart,shape);
+        this.cover.addChild(shape_16,shape_15,shape_14,shape_13,shape_12,shape_11,shape_10,shape_9,shape_8,shape_7,shape_6,shape_5,shape_4,shape_3,this.cover.mc,shape_2,shape_1,this.cover.btnStart,shape);
     }
     setSmall(config) {
         if(Object.prototype.toString.call(config) !== '[object Object]') {
@@ -358,43 +347,78 @@ export class Lib {
         this.small = new window.createjs.MovieClip(config)
         this.small.nominalBounds = new window.createjs.Rectangle(-3,-3,683.5,837)
 
-        this.unit6.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit5.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit4.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit3.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit2.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit1.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit12.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit11.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit10.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit9.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit8.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit7.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit18.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit17.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit16.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit15.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit14.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit13.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit24.setTransform(515,699.5,1,1,0,0,0,154,124.3);
-        this.unit23.setTransform(162.5,699.5,1,1,0,0,0,154,124.3);
-        this.unit22.setTransform(515,415.5,1,1,0,0,0,154,124.3);
-        this.unit21.setTransform(162.5,415.5,1,1,0,0,0,154,124.3);
-        this.unit20.setTransform(515,131.5,1,1,0,0,0,154,124.3);
-        this.unit19.setTransform(162.5,131.5,1,1,0,0,0,154,124.3);
-        this.unit30.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit29.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit28.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit27.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit26.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit25.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit35.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
-        this.unit34.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit33.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
-        this.unit32.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
-        this.unit31.setTransform(163,133.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn6 = Object.create(this.unit6)
+        this.small.btn6.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn5 = Object.create(this.unit5)
+        this.small.btn5.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn4 = Object.create(this.unit4)
+        this.small.btn4.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn3 = Object.create(this.unit3)
+        this.small.btn3.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn2 = Object.create(this.unit2)
+        this.small.btn2.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn1 = Object.create(this.unit1)
+        this.small.btn1.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn12 = Object.create(this.unit12)
+        this.small.btn12.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn11 = Object.create(this.unit11)
+        this.small.btn11.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn10 = Object.create(this.unit10)
+        this.small.btn10.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn9 = Object.create(this.unit9)
+        this.small.btn9.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn8 = Object.create(this.unit8)
+        this.small.btn8.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn7 = Object.create(this.unit7)
+        this.small.btn7.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn18 = Object.create(this.unit18)
+        this.small.btn18.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn17 = Object.create(this.unit17)
+        this.small.btn17.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn16 = Object.create(this.unit16)
+        this.small.btn16.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn15 = Object.create(this.unit15)
+        this.small.btn15.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn14 = Object.create(this.unit14)
+        this.small.btn14.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn13 = Object.create(this.unit13)
+        this.small.btn13.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn24 = Object.create(this.unit24)
+        this.small.btn24.setTransform(515,699.5,1,1,0,0,0,154,124.3);
+        this.small.btn23 = Object.create(this.unit23)
+        this.small.btn23.setTransform(162.5,699.5,1,1,0,0,0,154,124.3);
+        this.small.btn22 = Object.create(this.unit22)
+        this.small.btn22.setTransform(515,415.5,1,1,0,0,0,154,124.3);
+        this.small.btn21 = Object.create(this.unit21)
+        this.small.btn21.setTransform(162.5,415.5,1,1,0,0,0,154,124.3);
+        this.small.btn20 = Object.create(this.unit20)
+        this.small.btn20.setTransform(515,131.5,1,1,0,0,0,154,124.3);
+        this.small.btn19 = Object.create(this.unit19)
+        this.small.btn19.setTransform(162.5,131.5,1,1,0,0,0,154,124.3);
+        this.small.btn30 = Object.create(this.unit30)
+        this.small.btn30.setTransform(515.5,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn29 = Object.create(this.unit29)
+        this.small.btn29.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn28 = Object.create(this.unit28)
+        this.small.btn28.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn27 = Object.create(this.unit27)
+        this.small.btn27.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn26 = Object.create(this.unit26)
+        this.small.btn26.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn25 = Object.create(this.unit25)
+        this.small.btn25.setTransform(163,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn35 = Object.create(this.unit35)
+        this.small.btn35.setTransform(163,699.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn34 = Object.create(this.unit34)
+        this.small.btn34.setTransform(515.5,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn33 = Object.create(this.unit33)
+        this.small.btn33.setTransform(163,415.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn32 = Object.create(this.unit32)
+        this.small.btn32.setTransform(515.5,131.5,1,1,0,0,0,154.5,124.3);
+        this.small.btn31 = Object.create(this.unit31)
+        this.small.btn31.setTransform(163,133.5,1,1,0,0,0,154.5,124.3);
     
-        this.small.timeline.addTween(window.createjs.Tween.get({}).to({state:[{t:this.unit1},{t:this.unit2},{t:this.unit3},{t:this.unit4},{t:this.unit5},{t:this.unit6}]}).to({state:[{t:this.unit7},{t:this.unit8},{t:this.unit9},{t:this.unit10},{t:this.unit11},{t:this.unit12}]},1).to({state:[{t:this.unit13},{t:this.unit14},{t:this.unit15},{t:this.unit16},{t:this.unit17},{t:this.unit18}]},1).to({state:[{t:this.unit19},{t:this.unit20},{t:this.unit21},{t:this.unit22},{t:this.unit23},{t:this.unit24}]},1).to({state:[{t:this.unit25},{t:this.unit26},{t:this.unit27},{t:this.unit28},{t:this.unit29},{t:this.unit30}]},1).to({state:[{t:this.unit31},{t:this.unit32},{t:this.unit33},{t:this.unit34},{t:this.unit35}]},1).wait(1));
+        this.small.timeline.addTween(window.createjs.Tween.get({}).to({state:[{t:this.small.btn1},{t:this.small.btn2},{t:this.small.btn3},{t:this.small.btn4},{t:this.small.btn5},{t:this.small.btn6}]}).to({state:[{t:this.small.btn7},{t:this.small.btn8},{t:this.small.btn9},{t:this.small.btn10},{t:this.small.btn11},{t:this.small.btn12}]},1).to({state:[{t:this.small.btn13},{t:this.small.btn14},{t:this.small.btn15},{t:this.small.btn16},{t:this.small.btn17},{t:this.small.btn18}]},1).to({state:[{t:this.small.btn19},{t:this.small.btn20},{t:this.small.btn21},{t:this.small.btn22},{t:this.small.btn23},{t:this.small.btn24}]},1).to({state:[{t:this.small.btn25},{t:this.small.btn26},{t:this.small.btn27},{t:this.small.btn28},{t:this.small.btn29},{t:this.small.btn30}]},1).to({state:[{t:this.small.btn31},{t:this.small.btn32},{t:this.small.btn33},{t:this.small.btn34},{t:this.small.btn35}]},1).wait(1));
     }
     setIndex(config) {
         if(Object.prototype.toString.call(config) !== '[object Object]') {
@@ -405,29 +429,33 @@ export class Lib {
         this.index.nominalBounds = new window.createjs.Rectangle(908,540,2010.6,1080)
 
         // cover
-        this.cover.setTransform(953.3,540);
-        this.index.timeline.addTween(window.createjs.Tween.get(this.cover).wait(35));
+        this.index.cover = Object.create(this.cover)
+        this.index.cover.setTransform(953.3,540);
+        this.index.timeline.addTween(window.createjs.Tween.get(this.index.cover).wait(35));
     
         // 文本
-        this.text.setTransform(533.3,785,1,1,0,0,0,221.6,24.4);
-        this.index.timeline.addTween(window.createjs.Tween.get(this.text).wait(35));
+        this.index.text = Object.create(this.text)
+        this.index.text.setTransform(533.3,785,1,1,0,0,0,221.6,24.4);
+        this.index.timeline.addTween(window.createjs.Tween.get(this.index.text).wait(35));
     
         // 大图
-        this.changeImg.setTransform(537.5,405.9,1,1,0,0,0,267.4,215.2);
-        this.index.timeline.addTween(window.createjs.Tween.get(this.changeImg).wait(35));
+        this.index.changeImg = Object.create(this.changeImg)
+        this.index.changeImg.setTransform(537.5,405.9,1,1,0,0,0,267.4,215.2);
+        this.index.timeline.addTween(window.createjs.Tween.get(this.index.changeImg).wait(35));
     
         // 小图
-        this.small.setTransform(1396.1,547.5,1,1,0,0,0,338.7,415.4);
-        this.index.timeline.addTween(window.createjs.Tween.get(this.small).wait(35));
+        this.index.small = Object.create(this.small)
+        this.index.small.setTransform(1396.1,547.5,1,1,0,0,0,338.7,415.4);
+        this.index.timeline.addTween(window.createjs.Tween.get(this.index.small).wait(35));
     
         // 翻页按钮
         this.index.btnNext = Object.create(this.right);
         this.index.btnNext.setTransform(1797.9,515.9,1,1,0,0,0,16.4,32.5)
-        new window.createjs.ButtonHelper(this.index.btnNext, 0, 1, 2, false, this.right, 3);
+        new window.createjs.ButtonHelper(this.index.btnNext, 0, 1, 2, false, Object.create(this.right), 3);
     
         this.index.btnPrev = Object.create(this.left);
         this.index.btnPrev.setTransform(986,515.9,1.048,1,0,0,0,16.4,32.5);
-        new window.createjs.ButtonHelper(this.index.btnPrev, 0, 1, 2, false, this.left, 3);
+        new window.createjs.ButtonHelper(this.index.btnPrev, 0, 1, 2, false, Object.create(this.left), 3);
     
         this.index.timeline.addTween(window.createjs.Tween.get({}).to({state:[{t:this.index.btnPrev},{t:this.index.btnNext}]}).wait(35));
     
