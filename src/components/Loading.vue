@@ -127,9 +127,8 @@
           this.lib.index.btnPrev.visible = false;
         }
         
-        console.log('this.lib.index.cover.btnStart: ', this.lib.index.cover, this.lib.index.cover.btnStart);
-        
         this.lib.index.cover.btnStart.on('click', () => {
+          console.log('click: ');
           this.lib.cover.visible = false
         })
 
