@@ -1,7 +1,7 @@
-import { options } from '@/config/demo1/options'
+import { defaultConfig } from '@/config/demo1/default-config'
 export function getResizeValue () {
-  const ow = options.width
-  const oh = options.height
+  const ow = defaultConfig.width
+  const oh = defaultConfig.height
   const gw = window.innerWidth
   const gh = window.innerHeight
   const originalRatio = ow / oh
@@ -21,7 +21,6 @@ export function getResizeValue () {
   return { margin, width, height }
 }
 export function getPixelRatio (context) {
-  console.log(context)
   const backingStore = context.backingStorePixelRatio ||
     context.webkitBackingStorePixelRatio ||
     context.mozBackingStorePixelRatio ||
