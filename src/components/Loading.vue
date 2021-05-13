@@ -45,7 +45,8 @@
         btnGroup: [],
         update: false,
         cancelBtn: false,
-        currentNum: 0
+        currentNum: 0,
+        libIndex: null
       }
     },
     mounted() {
@@ -90,7 +91,8 @@
         this.lib.setCover()
         this.lib.setSmall({mode: 'synched', startPosition: 0})
         this.lib.setIndex({mode: 'synched', startPosition: 0, loop: false})
-        this.stage.addChild(this.lib.index)
+        this.libIndex = new this.lib.index({mode: 'synched', startPosition: 0})
+        this.stage.addChild(this.libIndex)
         this.stage.update()
 
         window.createjs.Touch.enable(this.stage)
@@ -102,46 +104,75 @@
         this.hideLoading()
       },
       init () {
-        this.lib.index.small.gotoAndStop(0);
+        this.libIndex.small.gotoAndStop(0);
+        console.log('this.lib.index.small: ', this.libIndex.small);
         const max = resource.demo3.MAX_NUM
         for(let i = 0; i < max; i++) {
-          const btn = this.lib.index.small[`btn${i+1}`]
+          const btn = this.libIndex.small[`btn${i+1}`]
           if(btn && i < max) {
             this.btnGroup.push(btn)
           }
           if (btn) {
             if(i == 0) {
+              btn.gou.visible = true;
               btn.gotoAndStop(1)
             } else {
+              btn.gou.visible = false;
               btn.gotoAndStop(0)
             }
-            btn.gou.visible = false;
           }
         }
-        this.lib.index.gotoAndStop(0);
+        this.libIndex.gotoAndStop(0);
         this.handleControl();
       },
       handleControl() {
         if(resource.demo3.MAX_NUM < 7) {
-          this.lib.index.btnNext.visible = false;
-          this.lib.index.btnPrev.visible = false;
+          this.libIndex.btnNext.visible = false;
+          this.libIndex.btnPrev.visible = false;
         }
-        
-        this.lib.index.cover.btnStart.on('click', () => {
+        console.log('this.libIndex.cover', this.libIndex.cover);
+        this.libIndex.cover.btnStart.on('click', () => {
           console.log('click: ');
-          this.lib.cover.visible = false
+          this.libIndex.cover.visible = false
+          this.cancelBtn = true
         })
 
         this.btnGroup.forEach((btn, i) => {
           btn.on('click', () => {
+            console.log('this.cancelBtn: ', this.cancelBtn);
             if(!this.cancelBtn) return;
             this.currentNum = i;
             this.resetBtn();
             btn.gotoAndStop(1);
-            this.lib.index.gotoAndStop(i);
+            this.libIndex.gotoAndStop(i);
             btn.gou.visible = true;
           });
         });
+        this.libIndex.btnNext.cursor = null;
+        this.libIndex.btnNext.on('click', () => {
+            if(!this.cancelBtn) return;
+            console.log('click: ', this.cancelBtn);
+            if(this.libIndex.small.currentFrame == Math.floor(resource.demo3.MAX_NUM / 6)) return;
+            console.log('this.currentNum: ', this.currentNum);
+            this.viewFrame(this.libIndex.small.currentFrame + 1, this.libIndex.small);
+            this.resetBtn();
+            this.btnGroup[this.currentNum].gotoAndStop(1);
+        });
+
+        this.libIndex.btnPrev.cursor = null;
+        this.libIndex.btnPrev.on('click', () => {
+            if(!this.cancelBtn) return;
+            if(this.libIndex.small.currentFrame == 0) return;
+            this.viewFrame(this.libIndex.small.currentFrame - 1, this.libIndex.small);
+            this.resetBtn();
+            this.btnGroup[this.currentNum].gotoAndStop(1);
+        });
+      },
+      viewFrame(idx, timeline){
+        timeline = timeline || this.libIndex;
+        timeline.gotoAndStop(idx);
+        console.log('timeline.gotoAndStop: ', timeline.gotoAndStop);
+        // stopAllSounds();
       },
       resetBtn(){
         this.cancelBtn = true
